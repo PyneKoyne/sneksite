@@ -12,10 +12,21 @@ const methodOverride = require('method-override');
 const multer = require('multer');
 const crypto = require('crypto');
 const {GridFsStorage} = require('multer-gridfs-storage');
+const wss = require ('./packages/webrtc');
+const fs = require('fs');
+const https = require('https');
+const http = require('http');
+
 
 const routes = require('./routes/index');
 const files = require('./routes/file_structure');
 const uploads = require('./routes/upload');
+
+// This line is from the Node.js HTTPS documentation.
+const options = {
+    key: fs.readFileSync('../SSL/private-key.pem'),
+    cert: fs.readFileSync('../SSL/certificate.pem')
+};
 
 const app = express();
 
@@ -58,6 +69,8 @@ const storage = new GridFsStorage({
     }
 });
 
+const WSSPORT = 8090;
+
 const upload = multer({ storage });
 
 app.use('/files', files);
@@ -98,6 +111,13 @@ app.use(function (err, req, res, next) {
 // port set by project settings otherwise it's 3000
 app.set('port', process.env.PORT || 3000);
 
-const server = app.listen(app.get('port'), function () {
+const server = https.createServer(options, app).listen(4000, function () {
     console.log('Express server listening on port ' + server.address().port);
 });
+
+http.createServer(app).listen(app.get('port'), function () {
+    console.log('Express server listening on port ' + server.address().port);
+});
+
+// init the websocket server on 8090
+wss.init(server, WSSPORT)
