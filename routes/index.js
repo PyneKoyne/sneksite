@@ -4,6 +4,7 @@ const router = express.Router();
 const tool = require('../tools/fileTool');
 const itemCreator = require('../tools/emptyCreator')
 const path = require('path');
+const frontEnd = require('./serve_page');
 
 // Process Model
 let processSchema = require("../models/processes");
@@ -17,6 +18,7 @@ router.use((req, res, next) => {
             .then((process) => {
                 if (process.length !== 1) {
                     console.log("Process not found: " + JSON.stringify(process))
+                    router.use("/*", frontEnd);
                 } else {
                     console.log(process);
                     const processFile = require(process[0].processPath);
@@ -34,20 +36,6 @@ router.route('/')
         console.log("Request sent to root");
         itemCreator.addItem(req, ',').then(r => res.json(r));
     });
-
-router.route('/*')
-    .get((req, res) => {
-        if (/(.ico|.js|.css|.jpg|.png|.map)$/i.test(req.path)) {
-            console.log("hi1");
-        } else {
-            console.log("hi");
-            res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-            res.header('Expires', '-1');
-            res.header('Pragma', 'no-cache');
-        }
-        console.log(__dirname);
-        res.sendFile(path.join(__dirname, '..', '..', 'snek', 'build', 'index.html'));
-    })
 
 
 module.exports = router;

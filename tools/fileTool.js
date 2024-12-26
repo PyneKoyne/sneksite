@@ -66,9 +66,9 @@ module.exports = {
                 .then((folder) => {
                     fileSchema.find({ path: path })
                         .then((file) => {
-                            console.log(folder);
                             if (folder == null) {
-                                res([], []);
+                                console.log("In fileTool.js: No Path Exists")
+                                res([[], []]);
                             }
                             else if (type === 0) {
                                 res([file]);

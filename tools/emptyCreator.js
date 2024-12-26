@@ -22,7 +22,7 @@ module.exports = {
         return new Promise((res, rej) => {
             tool.neighbourNames(pathString, 2)
                 .then((names) => {
-                    console.log("Neighbour Names: " + names);
+                    console.log("Neighbour Names: " + JSON.stringify(names));
 
                     // for loops through each item to be added
                     for (let i = 0; i < req.body.length; i++) {
@@ -69,6 +69,9 @@ module.exports = {
                                     })
                                     .catch(err => rej(err));
                             }
+                        }
+                        else{
+                            console.log("ERROR: Item Already Exists!")
                         }
                     }
                     res("uploading")
