@@ -21,12 +21,15 @@ module.exports = (upload) => {
             const pathString = tool.pathStringify(req.originalUrl);
             tool.neighbourNames(pathString, 2)
                 .then((fileArray) => {
+
+                    console.log("Neighbour File Names: " + JSON.stringify(fileArray));
+
                     // loops through each file to add
                     for (let i = 0; i < files.length; i++) {
                         const file = files[i];
 
                         // only runs if a file of the same name isn't already in the selected folder
-                        if (!fileArray[1].includes(file.originalname)) {
+                        if (!fileArray.includes(file.originalname)) {
 
                             // splits the file title into the name and the extension
                             const fileTitle = file.originalname.split(".");
@@ -51,12 +54,15 @@ module.exports = (upload) => {
                                 .then((fileThing) => {
                                     itemCreator.updateParentFolder(fileThing, false, req.originalUrl);
                                 })
-                                .catch(err => res.status(500).json(err));
+                                .catch(err => console.log(err));
                         }
                     }
+                    res.json("Files Saved")
                 })
-                .catch(err => res.status(500).json(err));
-            res.json("Files Saved")
+                .catch(err => {
+                    res.status(500).json(err);
+                    console.log(err);
+                });
         });
 
     return router;

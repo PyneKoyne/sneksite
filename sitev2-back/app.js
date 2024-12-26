@@ -16,17 +16,18 @@ const wss = require ('./packages/webrtc');
 const fs = require('fs');
 const https = require('https');
 const http = require('http');
+const cors = require('cors');
 
 
 const routes = require('./routes/index');
 const files = require('./routes/file_structure');
 const uploads = require('./routes/upload');
 
-// This line is from the Node.js HTTPS documentation.
-const options = {
-    key: fs.readFileSync('../SSL/private-key.pem'),
-    cert: fs.readFileSync('../SSL/certificate.pem')
-};
+// // This line is from the Node.js HTTPS documentation.
+// const options = {
+//     key: fs.readFileSync('../SSL/private-key.pem'),
+//     cert: fs.readFileSync('../SSL/certificate.pem')
+// };
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(methodOverride('_method'));
+app.use(cors());
 app.use(express.static(path.join(__dirname, '..', 'snek', 'build')));// Start the server
 
 // Connecting MongoDB Database
@@ -111,13 +113,13 @@ app.use(function (err, req, res, next) {
 // port set by project settings otherwise it's 3000
 app.set('port', process.env.PORT || 3000);
 
-const server = https.createServer(options, app).listen(4000, function () {
+const server = http.createServer(app).listen(4000, function () {
     console.log('Express server listening on port ' + server.address().port);
 });
-
-http.createServer(app).listen(app.get('port'), function () {
-    console.log('Express server listening on port ' + server.address().port);
-});
+//
+// http.createServer(app).listen(app.get('port'), function () {
+//     console.log('Express server listening on port ' + server.address().port);
+// });
 
 // init the websocket server on 8090
 wss.init(server, WSSPORT)
