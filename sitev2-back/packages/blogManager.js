@@ -4,10 +4,14 @@ const router = express.Router();
 const fileSchema = require("../models/file");
 const tool = require("../tools/fileTool");
 
+router.use((req, res, next) => {
+    console.log("BLOG MANAGER BOOTED");
+    next()
+})
+
 // middleware that is specific to this file
 router.route('/grabAll')
     .get((req, res) => {
-        console.log("BLOG MANAGER BOOTED")
         fileSchema.find({ path: ",root,blog,files," })
             .select("fileName metaData path")
             .then((files) => {

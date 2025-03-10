@@ -3,8 +3,6 @@ const express = require('express');
 const router = express.Router();
 const tool = require('../tools/fileTool');
 const itemCreator = require('../tools/emptyCreator')
-const path = require('path');
-const frontEnd = require('./serve_page');
 
 // Process Model
 let processSchema = require("../models/processes");
@@ -16,15 +14,14 @@ router.use((req, res, next) => {
     } else {
         processSchema.find({command: tool.pathBottom(req.originalUrl)})
             .then((process) => {
-                if (process.length !== 1) {
-                    console.log("Process not found: " + JSON.stringify(process))
-                    router.use("/*", frontEnd);
-                } else {
+                if (process.length === 1) {
                     console.log(process);
                     const processFile = require(process[0].processPath);
                     router.use("/" + tool.pathBottom(req.originalUrl) + "/", processFile);
+                    console.log(req.originalUrl);
                 }
-                next();
+                console.log("Exiting Process Middleware")
+                next("route");
             })
             .catch(err => console.log(err));
     }

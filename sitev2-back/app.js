@@ -17,6 +17,7 @@ const fs = require('fs');
 const https = require('https');
 const http = require('http');
 const cors = require('cors');
+const frontEnd = require('./routes/serve_page');
 
 
 const routes = require('./routes/index');
@@ -78,9 +79,11 @@ const upload = multer({ storage });
 app.use('/files', files);
 app.use('/upload', uploads(upload));
 app.use('/', routes);
+app.use('/', frontEnd);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
+    console.log("CAUGHT BY 404 HANDLER");
     const err = new Error('Not Found');
     err.status = 404;
     next(err);
@@ -117,9 +120,9 @@ const server = https.createServer(options, app).listen(4000, function () {
     console.log('Express server listening on port ' + server.address().port);
 });
 
-http.createServer(app).listen(app.get('port'), function () {
-    console.log('Express server listening on port ' + server.address().port);
-});
+// http.createServer(app).listen(3000, function () {
+//     console.log('Express server listening on port ' + server.address().port);
+// });
 
 // init the websocket server on 8090
 wss.init(server, WSSPORT)
