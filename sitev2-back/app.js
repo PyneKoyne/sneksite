@@ -24,10 +24,10 @@ const files = require('./routes/file_structure');
 const uploads = require('./routes/upload');
 
 // // This line is from the Node.js HTTPS documentation.
-// const options = {
-//     key: fs.readFileSync('../SSL/private-key.pem'),
-//     cert: fs.readFileSync('../SSL/certificate.pem')
-// };
+const options = {
+    key: fs.readFileSync('../SSL/private-key.pem'),
+    cert: fs.readFileSync('../SSL/certificate.pem')
+};
 
 const app = express();
 
@@ -113,13 +113,13 @@ app.use(function (err, req, res, next) {
 // port set by project settings otherwise it's 3000
 app.set('port', process.env.PORT || 3000);
 
-const server = http.createServer(app).listen(4000, function () {
+const server = https.createServer(options, app).listen(4000, function () {
     console.log('Express server listening on port ' + server.address().port);
 });
-//
-// http.createServer(app).listen(app.get('port'), function () {
-//     console.log('Express server listening on port ' + server.address().port);
-// });
+
+http.createServer(app).listen(app.get('port'), function () {
+    console.log('Express server listening on port ' + server.address().port);
+});
 
 // init the websocket server on 8090
 wss.init(server, WSSPORT)
