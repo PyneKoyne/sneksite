@@ -22,7 +22,7 @@ module.exports = (upload) => {
             tool.neighbourNames(pathString, 2)
                 .then((fileArray) => {
 
-                    console.log("Neighbour File Names: " + JSON.stringify(fileArray));
+                    console.log("UPLOAD.JS~ Neighbour File Names: " + JSON.stringify(fileArray));
 
                     // loops through each file to add
                     for (let i = 0; i < files.length; i++) {

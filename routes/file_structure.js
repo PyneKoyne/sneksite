@@ -17,7 +17,8 @@ router.route('/*')
         cat.outputFile(req).then((item) => {
             if (typeof (item) === typeof ("")) {
                 res.json(item);
-            } else {
+            }
+            else {
                 item.pipe(res);
             }
         }).catch(err => res.status(500).json(err));
