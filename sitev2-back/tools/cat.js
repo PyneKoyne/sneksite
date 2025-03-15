@@ -62,6 +62,9 @@ module.exports = {
                                     res(gfs.openDownloadStreamByName(fileData[0].filename));
                                 })
                             }
+                            else {
+                                res([404, "FILE/FOLDER DOES NOT EXIST"]);
+                            }
                         })
                         .catch(err => rej(err));
                 })
