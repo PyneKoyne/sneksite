@@ -24,7 +24,7 @@ router.route("/grab/*")
         const fName = tool.pathTop(req.originalUrl);
 
         fileSchema.find({ path: ",root,blog,files,", fileName: fName})
-            .select("file")
+            .select("content")
             .then((file) => {
                 res.json(JSON.stringify(file));
             })

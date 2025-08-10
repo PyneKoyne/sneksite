@@ -27,11 +27,12 @@ module.exports = {
                     // for loops through each item to be added
                     for (let i = 0; i < req.body.length; i++) {
                         const item = req.body[i];
-                        if (names.includes(item.name + item.extension) === false) {
+                        const spaceRemovedName = item.name.replaceAll(" ", "_");
+                        if (names.includes(spaceRemovedName + item.extension) === false) {
                             // checks if the item to be added is a folder
                             if (item.type === 'folder') {
                                 let newFolder = new folderSchema({
-                                    folderName: item.name + item.extension,
+                                    folderName: spaceRemovedName + item.extension,
                                     folderContent: [],
                                     metaData: item.data,
                                     path: pathString,
@@ -51,7 +52,7 @@ module.exports = {
                             }
                             else {
                                 let newFile = new fileSchema({
-                                    fileName: item.name,
+                                    fileName: spaceRemovedName,
                                     fileExtension: item.extension,
                                     file: [],
                                     metaData: item.data,

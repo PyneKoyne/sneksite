@@ -27,12 +27,13 @@ module.exports = (upload) => {
                     // loops through each file to add
                     for (let i = 0; i < files.length; i++) {
                         const file = files[i];
+                        const spacedRemovedName = file.originalname.replaceAll(" ", "_");
 
                         // only runs if a file of the same name isn't already in the selected folder
-                        if (!fileArray.includes(file.originalname)) {
+                        if (!fileArray.includes(spacedRemovedName)) {
 
                             // splits the file title into the name and the extension
-                            const fileTitle = file.originalname.split(".");
+                            const fileTitle = spacedRemovedName.split(".");
                             const fileName = fileTitle[0];
                             let fileExtension = "";
 

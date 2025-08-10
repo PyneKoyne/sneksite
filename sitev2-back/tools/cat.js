@@ -23,17 +23,18 @@ connect.once('open', () => {
 
 module.exports = {
     outputFile: function (req) {
-        const pathString = tool.pathStringify(req.originalUrl, 1);
+        const spaceRemovedUrl = req.originalUrl.replaceAll(" ", "_");
+        const pathString = tool.pathStringify(spaceRemovedUrl, 1);
         return new Promise((res, rej) => {
             // finds the folder the path directs to
             folderSchema.findOne({
                 path: pathString,
-                folderName: tool.pathTop(req.originalUrl)
+                folderName: tool.pathTop(spaceRemovedUrl)
             })
                 .then((folder) => {
                     if (folder != null) {
                         console.log("Folder: " + folder);
-                        tool.neighbourNames(tool.pathStringify(req.originalUrl), 2)
+                        tool.neighbourNames(tool.pathStringify(spaceRemovedUrl), 2)
                             .then((file) => {
                                 console.log("File: " + file);
                             })
@@ -41,7 +42,7 @@ module.exports = {
                         res(JSON.stringify(folder));
                     }
 
-                    const fName = tool.pathTop(req.originalUrl).split(".");
+                    const fName = tool.pathTop(spaceRemovedUrl).split(".");
                     if (fName.length === 1) {
                         fName.push("")
                     } else {
