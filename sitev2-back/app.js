@@ -26,8 +26,8 @@ const uploads = require('./routes/upload');
 
 // // This line is from the Node.js HTTPS documentation.
 const options = {
-    key: fs.readFileSync('../SSL/private-key.pem'),
-    cert: fs.readFileSync('../SSL/certificate.pem')
+    key: fs.readFileSync('./SSL/private-key.pem'),
+    cert: fs.readFileSync('./SSL/certificate.pem')
 };
 
 const app = express();
@@ -39,7 +39,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(methodOverride('_method'));
 app.use(cors());
-app.use(express.static(path.join(__dirname, '..', 'snek', 'build')));// Start the server
+app.use(express.static(path.join(__dirname, 'public')));// Start the server
 
 // Connecting MongoDB Database
 mongoose.Promise = global.Promise;
