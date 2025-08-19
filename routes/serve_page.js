@@ -14,7 +14,7 @@ router.route('/*')
             res.header('Pragma', 'no-cache');
         }
         console.log(__dirname);
-        res.sendFile(path.join(__dirname, '..', '..', 'snek', 'build', 'index.html'));
+        res.sendFile(path.join(__dirname, '..', 'public'));
     })
 
 module.exports = router;
