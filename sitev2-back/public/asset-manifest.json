@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.98372b98.css",
+    "main.js": "/static/js/main.7551c849.js",
+    "static/media/sneykeye.png": "/static/media/sneykeye.776340cde90f3ab67918.png",
+    "static/media/logo.svg": "/static/media/logo.0bbffffc87a22de5744fe0a485b8c36a.svg",
+    "static/media/eye.svg": "/static/media/eye.1261d82bfe97a13de8016edb4ae67433.svg",
+    "index.html": "/index.html",
+    "main.98372b98.css.map": "/static/css/main.98372b98.css.map",
+    "main.7551c849.js.map": "/static/js/main.7551c849.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.98372b98.css",
+    "static/js/main.7551c849.js"
+  ]
+}
