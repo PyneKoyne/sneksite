@@ -6,9 +6,9 @@ const router = express.Router();
 router.route('/*')
     .get((req, res) => {
         if (/(.ico|.js|.css|.jpg|.png|.map)$/i.test(req.path)) {
-            console.log("hi1");
+            console.log("Routed to routes/serve_page.js: Route Is File");
         } else {
-            console.log("hi");
+            console.log("Routed to routes/serve_page.js: Route Is Page");
             res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
             res.header('Expires', '-1');
             res.header('Pragma', 'no-cache');
