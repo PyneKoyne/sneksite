@@ -13,7 +13,7 @@ router.route('/*')
             res.header('Expires', '-1');
             res.header('Pragma', 'no-cache');
         }
-        console.log(__dirname);
+        console.log(path.join(__dirname, '..', 'public'));
         res.sendFile(path.join(__dirname, '..', 'public'));
     })
 
