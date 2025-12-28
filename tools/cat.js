@@ -1,7 +1,7 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const dbConfig = require('../database/db');
+const dbConfig = process.env.DATABASE;
 const tool = require('./fileTool');
 const mongoose = require('mongoose');
 
@@ -11,7 +11,7 @@ let folderSchema = require("../models/folder");
 // File Model
 let fileSchema = require("../models/file");
 
-const connect = mongoose.createConnection(dbConfig.db);
+const connect = mongoose.createConnection(dbConfig);
 let gfs;
 
 connect.once('open', () => {

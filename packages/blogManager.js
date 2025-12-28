@@ -5,7 +5,7 @@ const fileSchema = require("../models/file");
 const tool = require("../tools/fileTool");
 
 router.use((req, res, next) => {
-    console.log("BLOG MANAGER BOOTED");
+    console.log("~~Blog Manager Booted~~");
     next()
 })
 

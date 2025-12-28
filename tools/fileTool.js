@@ -1,6 +1,5 @@
 fileSchema = require("../models/file");
 folderSchema = require("../models/folder");
-const mongoose = require("mongoose");
 
 /* Currently this file tool gives functions to:
  
@@ -104,6 +103,8 @@ module.exports = {
         file.forEach(function (item) {
             nameList.push(item.fileName + item.fileExtension)
         });
+
+        console.log(nameList)
 
         return nameList;
     },

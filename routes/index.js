@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const tool = require('../tools/fileTool');
-const itemCreator = require('../tools/emptyCreator')
+const auth = require('../tools/pyneAuth');
 
 // Process Model
 let processSchema = require("../models/processes");
@@ -30,8 +30,8 @@ router.use((req, res, next) => {
 router.route('/')
     // if a post request is ever made
     .post((req, res) => {
-        console.log("Request sent to root");
-        itemCreator.addItem(req, ',').then(r => res.json(r));
+        console.log("Adding item to root");
+        auth.addItems(req, res);
     });
 
 

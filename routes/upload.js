@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const tool = require('../tools/fileTool');
 const itemCreator = require('../tools/emptyCreator')
+const auth = require('../tools/pyneAuth')
 
 // File Model
 let fileSchema = require("../models/file");
@@ -17,12 +18,19 @@ module.exports = (upload) => {
         /* POST new files to the database */
         .post(upload.array("files"), function (req, res) {
             let files = req.files;
+            let token = req.body.apikey;
+
+            if (!auth.checkAuth(token)){
+                res.status(401).json("Invalid API-KEY");
+                return;
+            }
 
             const pathString = tool.pathStringify(req.originalUrl);
             tool.neighbourNames(pathString, 2)
-                .then((fileArray) => {
+                .then((names) => {
 
-                    console.log("UPLOAD.JS~ Neighbour File Names: " + JSON.stringify(fileArray));
+                    console.log("~~routes/upload.js~~");
+                    console.log("Existing Items: " + JSON.stringify(names));
 
                     // loops through each file to add
                     for (let i = 0; i < files.length; i++) {
@@ -30,7 +38,7 @@ module.exports = (upload) => {
                         const spacedRemovedName = file.originalname.replaceAll(" ", "_");
 
                         // only runs if a file of the same name isn't already in the selected folder
-                        if (!fileArray.includes(spacedRemovedName)) {
+                        if (!names.includes(spacedRemovedName)) {
 
                             // splits the file title into the name and the extension
                             const fileTitle = spacedRemovedName.split(".");

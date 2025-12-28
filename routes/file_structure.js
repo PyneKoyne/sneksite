@@ -1,13 +1,12 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const tool = require('../tools/fileTool');
 const cat = require('../tools/cat');
-const creator = require('../tools/emptyCreator')
+const auth = require('../tools/pyneAuth');
 
 // middleware that is specific to this router
 router.use((req, res, next) => {
-    console.log('Time: ');
+    console.log('~~/routes/file_structure.js loaded~~');
     next();
 })
 
@@ -26,8 +25,7 @@ router.route('/*')
 
     // if a post request is ever made
     .post((req, res) => {
-        const pathString = tool.pathStringify(req.originalUrl);
-        creator.addItem(req, pathString).then(r => res.json(r));
+        auth.addItems(req, res)
     });
 
 module.exports = router;

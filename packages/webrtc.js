@@ -1,3 +1,6 @@
+// WebRTC Client for Camera As An Eye Mk I
+// Routes a video feed from an IP Camera through PyneKoyne.com to an external device on a seperate network
+
 const debug = require('debug')(`${process.env.APPNAME}:wss`);
 const WebSocket = require('ws');
 let channels = {}

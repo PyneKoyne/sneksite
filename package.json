@@ -1,13 +1,13 @@
 {
-  "name": "robo-hub",
+  "name": "sneksite",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "node app"
   },
-  "description": "RoboHub",
+  "description": "A dumb website for a dumb guy",
   "author": {
-    "name": ""
+    "name": "Kenny Zheng"
   },
   "dependencies": {
     "body-parser": "^1.15.0",
@@ -15,6 +15,7 @@
     "cookie-parser": "^1.4.0",
     "cors": "^2.8.5",
     "debug": "^2.2.0",
+    "dotenv": "^17.2.3",
     "express": "^4.14.0",
     "method-override": "^3.0.0",
     "mongodb": "^5.9.1",

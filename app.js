@@ -1,4 +1,7 @@
 'use strict';
+const dotenv = require('dotenv');
+dotenv.config();
+
 const debug = require('debug');
 const express = require('express');
 const path = require('path');
@@ -7,7 +10,6 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
-const dbConfig = require('./database/db');
 const methodOverride = require('method-override');
 const multer = require('multer');
 const crypto = require('crypto');
@@ -19,17 +21,22 @@ const http = require('http');
 const cors = require('cors');
 const frontEnd = require('./routes/serve_page');
 
-
 const routes = require('./routes/index');
 const files = require('./routes/file_structure');
 const uploads = require('./routes/upload');
 
-// // This line is from the Node.js HTTPS documentation.
-const options = {
-    key: fs.readFileSync('./SSL/private-key.pem'),
-    cert: fs.readFileSync('./SSL/certificate.pem')
-};
+let options;
+if (process.env.USE_SSL === "true") {
+    // This line is from the Node.js HTTPS documentation.
+    options = {
+        key: fs.readFileSync('./SSL/private-key.pem'),
+        cert: fs.readFileSync('./SSL/certificate.pem')
+    };
+}
 
+console.log("Enviroment Variables:")
+console.log(process.env)
+const dbConfig = process.env.DATABASE;
 const app = express();
 
 app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -43,7 +50,7 @@ app.use(express.static(path.join(__dirname, 'public')));// Start the server
 
 // Connecting MongoDB Database
 mongoose.Promise = global.Promise;
-mongoose.connect(dbConfig.db).then(() => {
+mongoose.connect(dbConfig).then(() => {
     console.log('Database successfully connected!')
 },
     error => {
@@ -53,7 +60,7 @@ mongoose.connect(dbConfig.db).then(() => {
 
 //create storage engine
 const storage = new GridFsStorage({
-    url: dbConfig.db,
+    url: dbConfig,
     file: (req, file) => {
         return new Promise((resolve, reject) => {
             //encrypt filename before storing it
@@ -115,14 +122,19 @@ app.use(function (err, req, res, next) {
 
 // port set by project settings otherwise it's 3000
 app.set('port', process.env.PORT || 3000);
+let server;
 
-const server = https.createServer(options, app).listen(4000, function () {
-    console.log('Express server listening on port ' + server.address().port);
-});
+if (process.env.USE_SSL === "true") {
+    server = https.createServer(options, app).listen(app.get('port'), function () {
+        console.log('Express server listening on port ' + server.address().port);
+    });
+}
 
-// http.createServer(app).listen(3000, function () {
-//     console.log('Express server listening on port ' + server.address().port);
-// });
+else {
+    server = http.createServer(app).listen(app.get('port'), function () {
+        console.log('Express server listening on port ' + server.address().port);
+    });
+}
 
 // init the websocket server on 8090
 wss.init(server, WSSPORT)
