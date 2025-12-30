@@ -91,7 +91,7 @@ The **`files`** sub-directory routes to `file_structure.js` which handles access
 You can access a file or folder by navigating to it as if `pynekoyne.com/files/` is the root directory, and sending a GET request. Here is an example: `pynekoyne.com/files/temp/example.txt`.
 #### Creating Root
 To create the root folder, send a POST request `pynekoyne.com/` with the following JSON element.
-```JSON
+```jsonc
 [
 	{
 		"type": "folder",
@@ -100,8 +100,8 @@ To create the root folder, send a POST request `pynekoyne.com/` with the followi
 		"data": { /* Metadata here */ }
 	},
 	{ /* Request Data In Last JSON Object */
-		apikey: "" /* <- API-KEY here */,
-		author: "Kenny Z"
+		"apikey": "" /* <- API-KEY here */,
+		"author": "Kenny Z"
 	}
 ]
 ```
@@ -109,7 +109,7 @@ To create the root folder, send a POST request `pynekoyne.com/` with the followi
 #### Creating Files/Folders
 To create an empty file or folder, send a POST request to the desired folder you want to place the items in. The request body should contain an array of JSON elements like so:
 
-```json
+```jsonc
 [
 	{  /* Example Item JSON Object */
 		"type": "folder",
@@ -124,7 +124,7 @@ To create an empty file or folder, send a POST request to the desired folder you
 		"data": { /* Metadata here */ }
 	},
 	
-	...
+	/*...*/
 	
 	{ /* Request Data In Last JSON Object */
 		"apikey": "" /* <- API-KEY here */,
@@ -152,7 +152,7 @@ Additionally, the request body should contain the API-Key in the form data. In P
 ## Documentation
 
 ##### Folder Schema
-```JSON
+```mongo
 {
     folderName: String,
     folderContent: String,    /* Data Specific To The Folder */
@@ -164,7 +164,7 @@ Additionally, the request body should contain the API-Key in the form data. In P
 ```
 
 ##### File Schema
-```JSON
+```mongo
 {
     fileName: String,
     fileExtension: String,    /* File Type */
@@ -175,7 +175,7 @@ Additionally, the request body should contain the API-Key in the form data. In P
 ```
 
 #### Process Schema
-```JSON
+```mongo
 {
 	processPath: String,       /* Path of the javascript file in Code */
 	frontend: String,          /* What front-end to use */
