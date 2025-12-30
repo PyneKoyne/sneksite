@@ -1,3 +1,5 @@
+# Sneksite
+
 This project contains the source code of my [personal website](https://pynekoyne.com). This project is built using:
 
 - MongoDB
@@ -139,6 +141,8 @@ To upload a file to the file-system, you must use the `upload` process, which ro
 Send a POST request to the desired folder you want to place the items in. The request body should contain the file data in a form. For example, if you wanted to upload a file to root/temp, you would send a request to `pynekoyne.com/upload/temp/`.
 
 Additionally, the request body should contain the API-Key in the form data. In Postman it should look like the following:
+
+<img width="845" height="360" alt="image" src="https://github.com/user-attachments/assets/45680d52-f8c9-43bb-aac8-9c2ac737c24f" />
 
 
 > It is recommended to use Postman to easily send requests
