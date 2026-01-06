@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<head>
+    <title>SnekViewer</title>
+    <link rel="stylesheet" href="/snekviewer/styles.css">
+</head>
+<body>
+<div class="container">
+    <h1>File Upload</h1>
+    <form id='form'>
+        <div class="input-group">
+            <label for='apikey'>API Key</label>
+            <input class="forminput" name='API-KEY' id='apikey' placeholder="Enter your API Key" />
+        </div>
+        <ul class="view" id="view">
+
+        </ul>
+        <div class="input-group">
+            <label for='files'>Select files</label>
+            <input class="forminput" id='files' type="file" multiple>
+        </div>
+        <button class="submit-btn" type='submit'>Upload</button>
+        <p id="upload"></p>
+    </form>
+    <script src='/snekviewer/script.js'></script>
+</div>
+</body>

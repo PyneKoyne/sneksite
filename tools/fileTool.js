@@ -20,8 +20,11 @@ folderSchema = require("../models/folder");
 module.exports = {
 
     //turns a path like /upload/users/ice cream/pawn.jpg into [,root,users,ice cream,pawn.jpg]
-    pathStringify: function (rawPath, back = 0) {
+    pathStringify: function (rawPath, back = 0, removeSpaces=false) {
 
+        if (removeSpaces){
+            rawPath = rawPath.replaceAll(" ", "_")
+        }
         // turns a path like /stupid/users/ice cream/ into ["root", "users", "ice cream"]
         let path = rawPath.substring(1).split('/');
         path[0] = 'root';
@@ -40,7 +43,7 @@ module.exports = {
         return pathString
     },
 
-    pathTop: function (rawPath) {
+    pathTop: function (rawPath, top=1) {
         let path = rawPath.substring(1).split('/');
 
         path[0] = 'root';
@@ -49,7 +52,7 @@ module.exports = {
             path.pop();
         }
 
-        return path.at(-1);
+        return path.at(-top);
     },
 
     pathBottom: function (rawPath) {
@@ -70,10 +73,10 @@ module.exports = {
                                 res([[], []]);
                             }
                             else if (type === 0) {
-                                res([file]);
+                                res([folder, []]);
                             }
                             else if (type === 1) {
-                                res([folder]);
+                                res([[], file]);
                             }
                             else if (type === 2) {
                                 res([folder, file]);
@@ -92,16 +95,17 @@ module.exports = {
 
         const folder = ids[0];
         const file = ids[1];
-        console.log("File ID: " + file);
-        console.log("Folder ID: " + folder);
-        const nameList = []
+        console.log("File IDs: " + file);
+        console.log("Folder IDs: " + folder);
+        const nameList = [[], []]
 
-        folder.forEach(function (item) {
-            nameList.push(item.folderName)
+        folder.forEach((item) => {
+            nameList[0].push(item.folderName)
         });
 
-        file.forEach(function (item) {
-            nameList.push(item.fileName + item.fileExtension)
+        file.forEach((item) => {
+            console.log(item.fileName)
+            nameList[1].push(item.fileName + item.fileExtension)
         });
 
         console.log(nameList)

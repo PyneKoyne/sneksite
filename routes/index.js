@@ -6,6 +6,7 @@ const auth = require('../tools/pyneAuth');
 
 // Process Model
 let processSchema = require("../models/processes");
+const {createItems} = require("../tools/emptyCreator");
 
 // middleware that is specific to this router
 router.use((req, res, next) => {
@@ -30,8 +31,11 @@ router.use((req, res, next) => {
 router.route('/')
     // if a post request is ever made
     .post((req, res) => {
-        console.log("Adding item to root");
-        auth.addItems(req, res);
+        auth.onAuth(req).then(() => {
+            createItems(req, ",").then(r => res.json(r));
+        }).catch((sts, msg) => {
+            res.status(sts).json(msg);
+        })
     });
 
 

@@ -1,0 +1,63 @@
+body {
+    background-color: black;
+}
+
+p {
+    color:black;
+}
+
+* {
+    box-sizing: border-box;
+}
+.container {
+    max-width: 500px;
+    margin: 60px auto;
+}
+.container h1 {
+    text-align: center;
+    color: white;
+}
+form {
+    background-color: white;
+    padding: 30px;
+}
+form .input-group {
+    margin-bottom: 15px;
+}
+form label {
+    display: block;
+    margin-bottom: 10px;
+}
+.forminput {
+    padding: 12px 20px;
+    width: 100%;
+    border: 1px solid #ccc;
+}
+.submit-btn {
+    width: 100%;
+    border: none;
+    background: red;
+    font-size: 18px;
+    color: white;
+    border-radius: 3px;
+    padding: 20px;
+    text-align: center;
+}
+
+.view {
+    padding: 0%;
+}
+
+.row {
+    display:flex;
+    justify-content: space-between;
+
+}
+
+.delete-button {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    border: 1px solid #ccc;
+    background-color: black;
+    color: white;
+}

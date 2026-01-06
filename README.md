@@ -80,6 +80,24 @@ docker compose up
 ---
 
 ## Usage
+
+### Access
+To access the site locally, the url depends on the `.env` settings the site was launched with.
+
+- If `USE_SSL=false`, then you can access the site at http://localhost:`PORT`
+- If `USE_SSL=true`, then you can access the site at https://localhost:`PORT`
+
+### Modifying Front-ends
+Currently, there are two front-ends supported by Sneksite
+
+- [Snekfront](https://github.com/PyneKoyne/snekfront) > Main viewer-facing front-end for SnekSite
+- [Snekviewer](https://github.com/PyneKoyne/snekviewer) > File-system front-end for Sneksite
+
+To update front-ends in Sneksite, place the built html/js/css files into the appropriate folder in `./public`.
+
+---
+
+## Documentation
 ### Paths
 Navigating the file-system is simple. This document will assume the base URL is https://pynekoyne.com.
 
@@ -146,10 +164,6 @@ Additionally, the request body should contain the API-Key in the form data. In P
 
 
 > It is recommended to use Postman to easily send requests
-
----
-
-## Documentation
 
 ##### Folder Schema
 ```mongo

@@ -7,16 +7,17 @@ const auth = require('../tools/pyneAuth')
 
 // File Model
 let fileSchema = require("../models/file");
-
+const path = require("path");
 
 module.exports = (upload) => {
     router.route('/*')
         .get(function (req, res) {
-            res.status(404).json("Does Not Exist")
+            res.sendFile(path.join(__dirname, '..', 'public', 'snekviewer', 'index.html'));
         })
 
         /* POST new files to the database */
         .post(upload.array("files"), function (req, res) {
+            console.log("~~routes/upload.js~~");
             let files = req.files;
             let token = req.body.apikey;
 
@@ -26,10 +27,10 @@ module.exports = (upload) => {
             }
 
             const pathString = tool.pathStringify(req.originalUrl);
-            tool.neighbourNames(pathString, 2)
+            console.log(pathString);
+            let output = [[], []];
+            tool.neighbourNames(pathString, 1)
                 .then((names) => {
-
-                    console.log("~~routes/upload.js~~");
                     console.log("Existing Items: " + JSON.stringify(names));
 
                     // loops through each file to add
@@ -38,7 +39,7 @@ module.exports = (upload) => {
                         const spacedRemovedName = file.originalname.replaceAll(" ", "_");
 
                         // only runs if a file of the same name isn't already in the selected folder
-                        if (!names.includes(spacedRemovedName)) {
+                        if (!names[1].includes(spacedRemovedName)) {
 
                             // splits the file title into the name and the extension
                             const fileTitle = spacedRemovedName.split(".");
@@ -61,17 +62,42 @@ module.exports = (upload) => {
                             // saves the file and updates its parent folder to include its id
                             newFile.save()
                                 .then((fileThing) => {
-                                    itemCreator.updateParentFolder(fileThing, false, req.originalUrl);
+                                    itemCreator.updateParentFolder(fileThing, false, req.originalUrl)
+                                        .then(() => {
+                                            output[0].push(spacedRemovedName);
+                                            if (output[0].length + output[1].length === files.length){
+                                                res.status(200).json({"Files Uploaded": output[0], "Failed Uploading": output[1]})
+                                            }
+                                        }).catch((e) => {
+                                            console.log(e);
+                                            output[1].push(spacedRemovedName);
+                                        });
                                 })
-                                .catch(err => console.log(err));
+                                .catch((err) => {
+                                    console.log(err);
+                                    output[1].push(spacedRemovedName);
+                                });
+                        }
+                        else{
+                            output[1].push(spacedRemovedName)
                         }
                     }
-                    res.json("Files Saved")
                 })
                 .catch(err => {
                     res.status(500).json(err);
                     console.log(err);
                 });
+        })
+        .put(upload.array("files"), function (req, res) {
+            let files = req.files;
+            let token = req.body.apikey;
+
+            if (!auth.checkAuth(token)){
+                res.status(401).json("Invalid API-KEY");
+                return;
+            }
+
+            const pathString = tool.pathStringify(req.originalUrl, 1);
         });
 
     return router;

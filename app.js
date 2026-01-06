@@ -34,7 +34,7 @@ if (process.env.USE_SSL === "true") {
     };
 }
 
-console.log("Enviroment Variables:")
+console.log("Environment Variables:")
 console.log(process.env)
 const dbConfig = process.env.DATABASE;
 const app = express();
