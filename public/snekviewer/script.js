@@ -1,10 +1,11 @@
 const form = document.getElementById("form");
 const viewer = document.getElementById("view")
 const fullAddress = window.location.href.toString();
+console.log(fullAddress)
 const path = fullAddress.split(window.location.host)[1].split("/");
 path.shift()
 const process = path.shift()
-const URL = "http://localhost:3000";
+const URL = "https://pynekoyne.com";
 
 window.onload = function () {
     grabItems();
@@ -39,24 +40,33 @@ function grabItems() {
         .then(res => res.json())
         .then(data => {
             const items = JSON.parse(data);
+
+            let fetchURL = URL + "/files/" + path.join("/");
+            if (path.length > 0){
+                fetchURL += "/";
+            }
+
             items[0].forEach(item => {
                 const div = document.createElement('li');
-                const label = document.createElement('p')
+                const label = document.createElement('a')
                 div.className = 'row';
 
                 label.innerText = "Folder: " + item.toString();
+                label.href = fullAddress.at(-1) === "/" ? fullAddress + item : fullAddress + "/" + item;
 
                 div.appendChild(label);
                 // div.innerHTML += `
                 //     <input type="button" class="delete-button" value="Delete Item" onclick="removeRow(this)" />`;
                 viewer.appendChild(div);
             });
+
             items[1].forEach(item => {
                 const div = document.createElement('li');
-                const label = document.createElement('p')
+                const label = document.createElement('a')
                 div.className = 'row';
 
                 label.innerText = "File: " + item.toString();
+                label.href = fetchURL + item;
 
                 div.appendChild(label);
                 div.innerHTML += `
