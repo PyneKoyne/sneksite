@@ -66,6 +66,7 @@ module.exports = {
                                 fileName: itemName,
                                 fileExtension: item.extension,
                                 file: [],
+                                fileContent: (item.content) ? JSON.stringify(item.content) : "",
                                 metaData: item.data,
                                 path: pathString,
                             });
