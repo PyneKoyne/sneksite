@@ -1,16 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.98372b98.css",
-    "main.js": "/static/js/main.4242f9da.js",
-    "static/media/sneykeye.png": "/static/media/sneykeye.776340cde90f3ab67918.png",
-    "static/media/logo.svg": "/static/media/logo.0bbffffc87a22de5744fe0a485b8c36a.svg",
-    "static/media/eye.svg": "/static/media/eye.1261d82bfe97a13de8016edb4ae67433.svg",
-    "index.html": "/index.html",
-    "main.98372b98.css.map": "/static/css/main.98372b98.css.map",
-    "main.4242f9da.js.map": "/static/js/main.4242f9da.js.map"
+    "main.css": "/snekfront/static/css/main.421c2eb0.css",
+    "main.js": "/snekfront/static/js/main.1acfc019.js",
+    "static/js/13.0fb22d26.chunk.js": "/snekfront/static/js/13.0fb22d26.chunk.js",
+    "static/media/sneykeye.png": "/snekfront/static/media/sneykeye.776340cde90f3ab67918.png",
+    "static/media/logo.svg": "/snekfront/static/media/logo.0bbffffc87a22de5744fe0a485b8c36a.svg",
+    "static/media/fullLogo.svg": "/snekfront/static/media/fullLogo.b9f650e19808ccd35eb93e721879810f.svg",
+    "static/media/eye.svg": "/snekfront/static/media/eye.1261d82bfe97a13de8016edb4ae67433.svg",
+    "index.html": "/snekfront/index.html",
+    "main.421c2eb0.css.map": "/snekfront/static/css/main.421c2eb0.css.map",
+    "main.1acfc019.js.map": "/snekfront/static/js/main.1acfc019.js.map",
+    "13.0fb22d26.chunk.js.map": "/snekfront/static/js/13.0fb22d26.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.98372b98.css",
-    "static/js/main.4242f9da.js"
+    "static/css/main.421c2eb0.css",
+    "static/js/main.1acfc019.js"
   ]
 }
