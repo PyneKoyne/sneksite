@@ -125,5 +125,34 @@ module.exports = {
                 })
                 .catch(err => rej(err));
         });
+    },
+
+    updateFile: function(url, newContent) {
+        const pathString = tool.pathStringify(url, 1);
+        const itemName = tool.pathTop(url);
+
+        console.log("Updating File... (" + itemName.toString() + ")");
+        return new Promise((res, rej) => {
+            const fName = itemName.split(".");
+            if (fName.length === 1) {
+                fName.push("")
+            } else {
+                fName[1] = "." + fName[1];
+            }
+
+            // finds the folder the path directs to
+            fileSchema.findOneAndUpdate({
+                path: pathString,
+                fileName: fName[0],
+                fileExtension: fName[1]
+            }, { $set: {content: newContent}}, { new: true }, function (err, result) {
+                    if (result != null) {
+                        res({"sts": 200, "msg": JSON.stringify(result)});
+                    }
+                    else {
+                        res({"sts": 404, "msg": JSON.stringify(err)});
+                    }
+                })
+        });
     }
 }

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<head>
+    <title>SnekViewer - File Editor</title>
+    <link rel="stylesheet" href="/snekviewer/styles.css">
+</head>
+<body>
+<div class="container">
+    <h1>File Editor</h1>
+    <form id="editor-form">
+        <div class="input-group">
+            <label for="apikey">API Key</label>
+            <input class="forminput" id="apikey" placeholder="Enter your API Key" autocomplete="off" />
+        </div>
+        <div class="input-group">
+            <label id="filename" for="editor">Loading...</label>
+            <textarea class="forminput editor-input" id="editor" spellcheck="false" disabled></textarea>
+        </div>
+        <div class="editor-actions">
+            <a id="back" href="#">Back</a>
+            <button class="submit-btn editor-save" id="save" type="submit" disabled>Save</button>
+        </div>
+        <p id="status"></p>
+    </form>
+    <script src="/snekviewer/editor.js"></script>
+</div>
+</body>
+</html>

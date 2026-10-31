@@ -40,8 +40,19 @@ router.route('/*')
         auth.onAuth(req).then(() => {
             const spaceRemovedUrl = req.originalUrl.replaceAll(" ", "_");
             cat.deleteFile(spaceRemovedUrl)
-                .then(r => {res.status(r.sts).json(JSON.stringify(r.msg))})
-                .catch(e => res.stats(500).json(e));
+                .then(r => {res.status(r.sts).json(r.msg)})
+                .catch(e => res.status(500).json(e));
+        }).catch(r => {
+            res.status(r.sts).json(r.msg);
+        })
+    })
+
+    .put((req, res) => {
+        auth.onAuth(req).then(() => {
+            const spaceRemovedUrl = req.originalUrl.replaceAll(" ", "_");
+            cat.updateFile(spaceRemovedUrl, req.body[0].content)
+                .then(r => {res.status(r.sts).json(r.msg)})
+                .catch(e => res.status(500).json(e));
         }).catch(r => {
             res.status(r.sts).json(r.msg);
         })

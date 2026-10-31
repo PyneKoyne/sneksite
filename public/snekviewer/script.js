@@ -1,11 +1,11 @@
 const form = document.getElementById("form");
 const viewer = document.getElementById("view")
-const fullAddress = window.location.href.toString();
-console.log(fullAddress)
-const path = fullAddress.split(window.location.host)[1].split("/");
+const path = window.location.pathname.split("/");
 path.shift()
 const process = path.shift()
-const URL = "https://pynekoyne.com";
+const URL = "http://localhost:3000";
+const EDITOR_PAGE = "/snekviewer/editor.html";
+const EDITABLE_FILE = /\.(txt|md)$/i;
 
 window.onload = function () {
     grabItems();
@@ -32,6 +32,9 @@ function submitForm(e) {
 }
 
 function grabItems() {
+    const dirPath = path.filter(segment => segment !== "").join("/");
+    const dirURL = "/upload/" + (dirPath.length > 0 ? dirPath + "/" : "");
+
     console.log(URL + "/files/" + path.join("/"))
 
     fetch(URL + "/files/" + path.join("/"), {
@@ -40,33 +43,28 @@ function grabItems() {
         .then(res => res.json())
         .then(data => {
             const items = JSON.parse(data);
-
-            let fetchURL = URL + "/files/" + path.join("/");
-            if (path.length > 0){
-                fetchURL += "/";
-            }
-
             items[0].forEach(item => {
                 const div = document.createElement('li');
                 const label = document.createElement('a')
                 div.className = 'row';
 
                 label.innerText = "Folder: " + item.toString();
-                label.href = fullAddress.at(-1) === "/" ? fullAddress + item : fullAddress + "/" + item;
+                label.href = dirURL + item;
 
                 div.appendChild(label);
-                // div.innerHTML += `
-                //     <input type="button" class="delete-button" value="Delete Item" onclick="removeRow(this)" />`;
                 viewer.appendChild(div);
             });
-
             items[1].forEach(item => {
                 const div = document.createElement('li');
                 const label = document.createElement('a')
                 div.className = 'row';
 
                 label.innerText = "File: " + item.toString();
-                label.href = fetchURL + item;
+                if (EDITABLE_FILE.test(item)) {
+                    label.href = EDITOR_PAGE + "?path=" + encodeURIComponent(dirPath) + "&edit=" + encodeURIComponent(item);
+                } else {
+                    label.href = URL + "/files/" + (dirPath.length > 0 ? dirPath + "/" : "") + item;
+                }
 
                 div.appendChild(label);
                 div.innerHTML += `
@@ -101,7 +99,7 @@ function removeRow(input) {
         }])
     }).then(r => r.json())
         .then((response) => {
-        console.log(response);
-        input.parentNode.children[0].innerText = JSON.stringify(response);
-    });
+            console.log(response);
+            input.parentNode.children[0].innerText = JSON.stringify(response);
+        });
 }
