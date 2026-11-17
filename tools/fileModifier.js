@@ -4,6 +4,7 @@ const router = express.Router();
 const dbConfig = process.env.DATABASE;
 const tool = require('./fileTool');
 const mongoose = require('mongoose');
+const { Readable } = require('stream');
 
 // Folder Model
 let folderSchema = require("../models/folder");
@@ -63,9 +64,11 @@ module.exports = {
                                     console.log("File: " + file);
                                     gfs.find({_id: file.file[0]}).toArray((err, fileData) => {
                                         if (err != null) {
-                                            res(err);
+                                            return res(Readable.from([file.content || ""]));
                                         }
-                                        res(gfs.openDownloadStreamByName(fileData[0].filename));
+                                        else {
+                                            res(gfs.openDownloadStreamByName(fileData[0].filename));
+                                        }
                                     })
                                 } else {
                                     res([404, "FILE/FOLDER DOES NOT EXIST"]);
