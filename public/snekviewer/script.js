@@ -3,7 +3,7 @@ const viewer = document.getElementById("view")
 const path = window.location.pathname.split("/");
 path.shift()
 const process = path.shift()
-const URL = "http://localhost:3000";
+const URL = window.location.origin;
 const EDITOR_PAGE = "/snekviewer/editor.html";
 const EDITABLE_FILE = /\.(txt|md)$/i;
 
