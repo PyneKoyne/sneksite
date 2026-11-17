@@ -62,9 +62,12 @@ module.exports = {
                             .then((file) => {
                                 if (file != null) {
                                     console.log("File: " + file);
+                                    if (!file.file || file.file.length === 0) {
+                                        return res(Readable.from([file.content || ""]));
+                                    }
                                     gfs.find({_id: file.file[0]}).toArray((err, fileData) => {
                                         if (err != null) {
-                                            return res(Readable.from([file.content || ""]));
+                                            res(err);
                                         }
                                         else {
                                             res(gfs.openDownloadStreamByName(fileData[0].filename));
